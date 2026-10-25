@@ -1,0 +1,20 @@
+name: dbt_glossary
+version: "1.0.0"
+profile: dbt_glossary        # must match the name in profiles.yml
+
+seed-paths: ["seeds"]
+model-paths: ["models"]
+
+seeds:
+  dbt_glossary:
+    glossary_terms:
+      +schema: raw              # → GLOSSARY_RAW schema
+      +column_types:
+        term: varchar
+        definition: varchar
+        domain: varchar
+        owner: varchar
+
+models:
+  dbt_glossary:
+    +materialized: table

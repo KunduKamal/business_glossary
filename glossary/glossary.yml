@@ -1,0 +1,82 @@
+# Business glossary — single source of truth
+# Flow: this file -> yaml_to_csv.py -> dbt seed -> Snowflake -> Metabase glossary
+#
+# Rules (so the Metabase sync works cleanly):
+#   - term:       required, unique (case-insensitive). This is the key Metabase matches on,
+#                 so renaming a term creates a NEW entry in Metabase.
+#   - definition: required, plain text (no HTML/markdown). 1–3 sentences a business user understands.
+#   - domain:     optional, for filtering in Snowflake (finance, sales, marketing, operations, data).
+#   - owner:      optional, team responsible for the definition.
+# Use `>` for long definitions: line breaks are folded into one paragraph.
+
+version: 1
+
+terms:
+  # --- Finance ---
+  - term: Gross Revenue
+    definition: Total value of all invoiced sales before returns, discounts and VAT.
+    domain: finance
+    owner: finance-team
+
+  - term: Net Revenue
+    definition: Gross revenue minus returns, discounts and VAT. This is the revenue figure used in management reporting.
+    domain: finance
+    owner: finance-team
+
+  - term: Gross Margin %
+    definition: >
+      (Net revenue - cost of goods sold) / net revenue, shown as a percentage.
+      Measures how much of each euro of revenue is left after direct costs.
+    domain: finance
+    owner: finance-team
+
+  - term: EBITDA
+    definition: Earnings before interest, taxes, depreciation and amortisation. Used as a proxy for operating cash profitability.
+    domain: finance
+    owner: finance-team
+
+  - term: Days Sales Outstanding (DSO)
+    definition: Average number of days it takes to collect payment after an invoice is issued. Calculated as accounts receivable / net revenue x days in period.
+    domain: finance
+    owner: finance-team
+
+  # --- Sales ---
+  - term: Active Customer
+    definition: A customer with at least one paid order in the last 90 days.
+    domain: sales
+    owner: bi-team
+
+  - term: Average Order Value (AOV)
+    definition: Net revenue divided by the number of paid orders in the same period.
+    domain: sales
+    owner: bi-team
+
+  - term: Churned Customer
+    definition: A previously active customer with no paid order for more than 180 days.
+    domain: sales
+    owner: bi-team
+
+  # --- Marketing ---
+  - term: Customer Acquisition Cost (CAC)
+    definition: Total marketing and sales spend in a period divided by the number of new customers acquired in that period.
+    domain: marketing
+    owner: marketing-team
+
+  - term: Conversion Rate
+    definition: Share of website sessions that end in a paid order, shown as a percentage.
+    domain: marketing
+    owner: marketing-team
+
+  # --- Data / test cases ---
+  # Edge cases on purpose, to test the pipeline end to end:
+  - term: Data Freshness
+    definition: 'Time since the last successful pipeline run. Dashboards show a "stale" warning if it exceeds 24 hours.'
+    domain: data
+    owner: bi-team
+
+  - term: Umsatz (Test Umlaut)
+    definition: German term for revenue — tests that ä, ö, ü and ß survive the trip to Snowflake and Metabase.
+    domain: data
+
+  - term: Test Term Without Owner
+    definition: Has no owner field, to check optional columns stay empty instead of breaking the load.

@@ -1,0 +1,20 @@
+version: 2
+
+models:
+  - name: dim_glossary
+    description: Clean business glossary, the source for the Metabase glossary sync.
+    columns:
+      - name: term
+        description: Glossary term, the unique key used to match terms in Metabase.
+        data_tests:
+          - unique
+          - not_null
+      - name: definition
+        description: Plain-text definition shown in Metabase.
+        data_tests:
+          - not_null
+      - name: domain
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ["finance", "sales", "marketing", "operations", "data"]
