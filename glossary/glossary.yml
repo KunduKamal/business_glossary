@@ -80,3 +80,259 @@ terms:
 
   - term: Test Term Without Owner
     definition: Has no owner field, to check optional columns stay empty instead of breaking the load.
+  # ===== Test batch: 50 additional terms (Nov 2026) =====
+
+  # --- Finance ---
+  - term: Operating Expenses (OPEX)
+    definition: Recurring costs to run the business, such as salaries, rent and software, excluding cost of goods sold.
+    domain: finance
+    owner: finance-team
+
+  - term: Capital Expenditure (CAPEX)
+    definition: Spending on long-term assets such as equipment or buildings that are capitalised and depreciated over time.
+    domain: finance
+    owner: finance-team
+
+  - term: Cost of Goods Sold (COGS)
+    definition: Direct costs of producing or purchasing the goods sold in a period, including materials and direct labour.
+    domain: finance
+    owner: finance-team
+
+  - term: Net Income
+    definition: Profit after all expenses, interest, taxes, depreciation and amortisation have been deducted from revenue.
+    domain: finance
+    owner: finance-team
+
+  - term: Free Cash Flow
+    definition: Operating cash flow minus capital expenditure. Shows the cash available after maintaining and growing the asset base.
+    domain: finance
+    owner: finance-team
+
+  - term: Accounts Receivable
+    definition: Money customers owe for goods or services already invoiced but not yet paid.
+    domain: finance
+    owner: finance-team
+
+  - term: Accounts Payable
+    definition: Money the company owes to suppliers for goods or services received but not yet paid.
+    domain: finance
+    owner: finance-team
+
+  - term: Budget Variance
+    definition: Difference between actual and budgeted figures for a period. A positive variance on revenue or a negative variance on cost is favourable.
+    domain: finance
+    owner: finance-team
+
+  - term: Burn Rate
+    definition: Net cash spent per month when expenses exceed income. Used to estimate how long current cash will last.
+    domain: finance
+    owner: finance-team
+
+  - term: Working Capital
+    definition: Current assets minus current liabilities. Indicates whether the company can cover its short-term obligations.
+    domain: finance
+    owner: finance-team
+
+  # --- Sales ---
+  - term: Monthly Recurring Revenue (MRR)
+    definition: Sum of normalised monthly subscription revenue from all active contracts at the end of a month.
+    domain: sales
+    owner: bi-team
+
+  - term: Annual Recurring Revenue (ARR)
+    definition: Monthly recurring revenue multiplied by twelve. Used to express the annual value of subscription contracts.
+    domain: sales
+    owner: bi-team
+
+  - term: Customer Lifetime Value (CLV)
+    definition: Expected total net revenue from a customer over the whole relationship, based on average order value, purchase frequency and retention.
+    domain: sales
+    owner: bi-team
+
+  - term: Win Rate
+    definition: Share of closed sales opportunities that were won, shown as a percentage of all closed opportunities in the period.
+    domain: sales
+    owner: sales-ops
+
+  - term: Sales Pipeline Value
+    definition: Total expected value of all open sales opportunities, before weighting by probability to close.
+    domain: sales
+    owner: sales-ops
+
+  - term: Sales Cycle Length
+    definition: Average number of days from opportunity creation to a won deal.
+    domain: sales
+    owner: sales-ops
+
+  - term: New Customer
+    definition: A customer whose first paid order falls within the reporting period.
+    domain: sales
+    owner: bi-team
+
+  - term: Repeat Purchase Rate
+    definition: Share of customers with two or more paid orders in the period, out of all customers with at least one paid order.
+    domain: sales
+    owner: bi-team
+
+  - term: Net Revenue Retention (NRR)
+    definition: Recurring revenue from existing customers at the end of a period, including upsell and minus churn, divided by their recurring revenue at the start.
+    domain: sales
+    owner: bi-team
+
+  - term: Discount Rate
+    definition: Total discounts granted divided by gross revenue before discounts, shown as a percentage.
+    domain: sales
+    owner: sales-ops
+
+  # --- Marketing ---
+  - term: Click-Through Rate (CTR)
+    definition: Clicks divided by impressions for an ad or email, shown as a percentage.
+    domain: marketing
+    owner: marketing-team
+
+  - term: Cost per Click (CPC)
+    definition: Ad spend divided by the number of clicks the ads received.
+    domain: marketing
+    owner: marketing-team
+
+  - term: Cost per Lead (CPL)
+    definition: Marketing spend divided by the number of new leads generated in the same period.
+    domain: marketing
+    owner: marketing-team
+
+  - term: Return on Ad Spend (ROAS)
+    definition: Net revenue attributed to advertising divided by ad spend. A ROAS of 4 means 4 euros of revenue per euro spent.
+    domain: marketing
+    owner: marketing-team
+
+  - term: Marketing Qualified Lead (MQL)
+    definition: A lead whose engagement meets the agreed scoring threshold and is ready to be passed to sales.
+    domain: marketing
+    owner: marketing-team
+
+  - term: Sales Qualified Lead (SQL Lead)
+    definition: A marketing qualified lead that sales has reviewed and accepted as a real opportunity.
+    domain: marketing
+    owner: sales-ops
+
+  - term: Lead-to-Customer Rate
+    definition: Share of leads created in a period that became paying customers, shown as a percentage.
+    domain: marketing
+    owner: marketing-team
+
+  - term: Email Open Rate
+    definition: Unique email opens divided by delivered emails, shown as a percentage. Affected by privacy features that pre-load images.
+    domain: marketing
+    owner: marketing-team
+
+  - term: Bounce Rate
+    definition: Share of website sessions with only one page view and no interaction, shown as a percentage.
+    domain: marketing
+    owner: marketing-team
+
+  - term: Attribution Window
+    definition: Number of days after an ad click or view during which a conversion is credited to that ad. Our default is 30 days after click.
+    domain: marketing
+    owner: marketing-team
+
+  # --- Operations ---
+  - term: Order Fulfilment Time
+    definition: Average hours from order payment to shipment handover to the carrier.
+    domain: operations
+    owner: ops-team
+
+  - term: On-Time Delivery Rate
+    definition: Share of orders delivered on or before the promised delivery date, shown as a percentage.
+    domain: operations
+    owner: ops-team
+
+  - term: Return Rate
+    definition: Number of returned order lines divided by shipped order lines in the same period, shown as a percentage.
+    domain: operations
+    owner: ops-team
+
+  - term: Inventory Turnover
+    definition: Cost of goods sold divided by average inventory value. Shows how many times stock is sold and replaced in a period.
+    domain: operations
+    owner: ops-team
+
+  - term: Stockout Rate
+    definition: Share of active products with zero available stock at the end of the day, shown as a percentage.
+    domain: operations
+    owner: ops-team
+
+  - term: Backorder
+    definition: An order line that was accepted but cannot be shipped because the product is out of stock.
+    domain: operations
+    owner: ops-team
+
+  - term: Lead Time
+    definition: Days between placing a purchase order with a supplier and receiving the goods in the warehouse.
+    domain: operations
+    owner: ops-team
+
+  - term: First Contact Resolution Rate
+    definition: Share of customer support tickets solved in the first interaction without follow-up, shown as a percentage.
+    domain: operations
+    owner: support-team
+
+  - term: Average Handling Time (AHT)
+    definition: Average minutes a support agent spends on one ticket, including conversation and follow-up work.
+    domain: operations
+    owner: support-team
+
+  - term: Net Promoter Score (NPS)
+    definition: Percentage of promoters (score 9–10) minus percentage of detractors (score 0–6) from the customer survey. Ranges from -100 to 100.
+    domain: operations
+    owner: support-team
+
+  # --- Data ---
+  - term: Source of Truth
+    definition: The single system or table agreed as authoritative for a given metric or entity. Reports must use it over copies.
+    domain: data
+    owner: bi-team
+
+  - term: Fact Table
+    definition: A table that records business events, such as orders or payments, with numeric measures and keys to dimensions. Prefixed fct_.
+    domain: data
+    owner: bi-team
+
+  - term: Dimension Table
+    definition: A table that describes business entities, such as customers or products, used to filter and group facts. Prefixed dim_.
+    domain: data
+    owner: bi-team
+
+  - term: Staging Model
+    definition: A dbt model that cleans and renames one source table without business logic. Prefixed stg_ and not meant for reporting.
+    domain: data
+    owner: bi-team
+
+  - term: Grain
+    definition: What one row of a table represents, for example one order line per day. Always check the grain before joining or summing.
+    domain: data
+    owner: bi-team
+
+  - term: Surrogate Key
+    definition: A generated unique identifier for a row, used instead of business keys that may change or collide across sources.
+    domain: data
+    owner: bi-team
+
+  - term: Slowly Changing Dimension (SCD)
+    definition: A dimension that keeps history of changing attributes, such as a customer's segment, with valid-from and valid-to dates.
+    domain: data
+    owner: bi-team
+
+  - term: Data Lineage
+    definition: The path data takes from source systems through transformations to reports, showing which models depend on which.
+    domain: data
+    owner: bi-team
+
+  - term: Semantic Layer
+    definition: Shared business definitions of metrics, dimensions and terms that sit between raw data and reports so everyone calculates numbers the same way.
+    domain: data
+    owner: bi-team
+
+  - term: Data Quality Test
+    definition: An automated check, such as unique or not null, that runs after each build and fails the pipeline if data breaks an agreed rule.
+    domain: data
+    owner: bi-team

@@ -18,3 +18,42 @@ models:
           - accepted_values:
               arguments:
                 values: ["finance", "sales", "marketing", "operations", "data"]
+  - name: glossary_domain_summary
+    description: One row per glossary domain with term counts and completeness. Use it to monitor glossary coverage per team.
+    columns:
+      - name: domain
+        description: Glossary domain (finance, sales, marketing, operations, data), or 'unassigned' if the term has no domain.
+        data_tests:
+          - unique
+          - not_null
+      - name: term_count
+        description: Number of glossary terms in the domain.
+      - name: terms_with_owner
+        description: Number of terms in the domain that have an owner team.
+      - name: terms_without_owner
+        description: Number of terms in the domain without an owner team. Should be zero.
+      - name: avg_definition_length
+        description: Average definition length in characters. Very low values suggest definitions are too short.
+      - name: last_loaded_at
+        description: Latest load timestamp of the terms in this domain.
+
+  - name: glossary_quality_issues
+    description: One row per glossary term that needs attention because it is missing an owner or domain, or has a very short definition (under 40 characters).
+    columns:
+      - name: term
+        description: Glossary term with a quality issue.
+        data_tests:
+          - unique
+          - not_null
+      - name: domain
+        description: Domain of the term, if any.
+      - name: owner
+        description: Owner team of the term, if any.
+      - name: issue
+        description: The first issue found, in priority order - 'missing domain', 'missing owner', 'short definition'.
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ["missing domain", "missing owner", "short definition"]
+      - name: loaded_at
+        description: When the term was last loaded.
