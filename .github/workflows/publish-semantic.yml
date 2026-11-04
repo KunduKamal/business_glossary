@@ -1,0 +1,70 @@
+# Put this file in your MAIN (private) dbt repo at .github/workflows/publish-semantic.yml
+#
+# On every push to main that touches model YAML or the glossary, it:
+#   1. builds the split files + index with build_index.py
+#   2. pushes them to the separate "semantic" repo (mirror, not append)
+#
+# One-time setup:
+#   - Create the repo <org>/semantic (private).
+#   - Generate an SSH key pair. Add the PUBLIC key to <org>/semantic as a
+#     Deploy key WITH write access. Add the PRIVATE key to this main repo
+#     as secret SEMANTIC_DEPLOY_KEY. This key can write only to "semantic".
+#   - Copy scripts/build_index.py into this repo at the same path.
+
+name: Publish semantic layer
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "**/models/**/*.yml"
+      - "**/models/**/*.yaml"
+      - "**/models/**/*.sql"      # lineage is read from ref()/source() in SQL
+      - "glossary/**"
+      - "scripts/build_index.py"
+      - ".github/workflows/publish-semantic.yml"
+  workflow_dispatch: {}
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out main repo
+        uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: pip install pyyaml
+
+      - name: Check out semantic repo
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository_owner }}/semantic
+          ssh-key: ${{ secrets.SEMANTIC_DEPLOY_KEY }}
+          path: semantic_repo
+
+      # Optional: use dbt's true lineage instead of meta.upstream.
+      # - run: pip install dbt-snowflake && dbt parse --profiles-dir ci_profiles
+      #   then add: --manifest target/manifest.json
+
+      - name: Build split files and index
+        run: |
+          python scripts/build_index.py \
+            --repo . \
+            --out semantic_repo \
+            --glossary glossary/glossary.yml
+
+      - name: Commit and push if anything changed
+        working-directory: semantic_repo
+        run: |
+          git config user.name  "semantic-bot"
+          git config user.email "semantic-bot@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No changes to publish."
+          else
+            git commit -m "Sync from ${{ github.repository }}@${{ github.sha }}"
+            git push
+          fi
