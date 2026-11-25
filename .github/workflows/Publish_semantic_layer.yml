@@ -1,0 +1,79 @@
+name: Publish semantic layer
+
+# The source repo is only ever read, never written.
+permissions:
+  contents: read
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "**/models/**/*.yml"
+      - "**/models/**/*.yaml"
+      - "**/models/**/*.sql"
+      - "glossary/**"
+      - "scripts/build_index.py"
+      - ".github/workflows/publish-semantic.yml"
+  workflow_dispatch: {}
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source repo (read-only)
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: pip install pyyaml
+
+      - name: Create GitHub App token (scoped to Semantic_test)
+        id: app-token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ vars.SEMANTIC_APP_ID }}
+          private-key: ${{ secrets.SEMANTIC_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repositories: Semantic_test
+
+      - name: Check out target repo
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository_owner }}/Semantic_test
+          token: ${{ steps.app-token.outputs.token }}
+          path: semantic_repo
+
+      - name: Build split files and index
+        run: |
+          python scripts/build_index.py \
+            --repo . \
+            --out semantic_repo \
+            --glossary glossary/glossary.yml
+
+      - name: Guard - only YAML may be published
+        working-directory: semantic_repo
+        run: |
+          git add -A
+          bad=$(git diff --cached --name-only | grep -vE '\.ya?ml$' || true)
+          if [ -n "$bad" ]; then
+            echo "Unexpected files staged:"
+            echo "$bad"
+            exit 1
+          fi
+
+      - name: Commit and push if anything changed
+        working-directory: semantic_repo
+        run: |
+          git config user.name  "bot21semantic[bot]"
+          git config user.email "bot21semantic[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No changes to publish."
+          else
+            git commit -m "Sync from ${{ github.repository }}@${{ github.sha }}"
+            git push
+          fi
